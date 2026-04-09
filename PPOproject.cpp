@@ -3,77 +3,22 @@
 
 using namespace std;
 
-class Osoba{
-    private:
-        int TabIndex;
-        string TabImie;
-        string TabNazwiska;
-    public:
-        void setImie(string imie);
-        string getImie();
-        void setNazwisko(string nazwisko);
-        string getNazwisko();
-        void setIndex(int index);
-        int getIndex();
-};
-void Osoba::setImie(string imie){
-    if(imie.length()>1)
-    {
-        TabImie=imie;
-        cout << "Ustawiono Imie\n";
-    }
-    else
-    {
-        cout << "Niepoprawne imie\n";
-    }
-}
-string Osoba::getImie(){
-    return TabImie;
-}
-void Osoba::setNazwisko(string nazwisko){
-    if(nazwisko.length()>1)
-    {
-        TabNazwiska=nazwisko;
-        cout << "Ustawiono nazwisko\n";
-    }
-    else
-    {
-        cout << "Niepoprawne nazwisko\n";
-    }
-}
-string Osoba::getNazwisko(){
-    return TabNazwiska;
-}
-void Osoba::setIndex(int Index){
-    if(Index>=100000 && Index<=999999)
-    {
-        TabIndex=Index;
-        cout << "Ustawiono Index\n";
-    }
-    else
-    {
-        cout << "Niepoprawny index\n";
-    }
-}
-int Osoba::getIndex(){
-    return TabIndex;
-}
-
-void dodajOsobe(Osoba *TabOsob, string nazwisko)
+void dodajOsobe(string *TabNazwiska, string nazwisko)
 {
     for (int i=0; i<10; i++){
-        if (TabOsob[i].getNazwisko()=="")
+        if (TabNazwiska[i]=="")
         {
-            TabOsob[i].setNazwisko(nazwisko);
+            TabNazwiska[i]=nazwisko;
+            cout << "Ustawiono nazwisko\n";
             return;
         }
     }
 }
 
-void ustawObecnosc(Osoba *TabOsob, bool *TabObecnosc, string nazwisko, bool obecnosc)
+void ustawObecnosc(string *TabNazwiska, bool *TabObecnosc, string nazwisko, bool obecnosc)
 {
     for (int i=0; i<10; i++){
-        if (TabOsob[i].getNazwisko()==nazwisko)
+        if (TabNazwiska[i]==nazwisko)
         {
             TabObecnosc[i]=obecnosc;
             cout << "Ustawiono obecnosc\n";
@@ -82,27 +27,28 @@ void ustawObecnosc(Osoba *TabOsob, bool *TabObecnosc, string nazwisko, bool obec
     }
 }
 
-void zmienNazwisko(Osoba *TabOsob, string nazwisko, string nowenazwisko)
+void zmienNazwisko(string *TabNazwiska, string nazwisko, string nowenazwisko)
 {
     for (int i=0; i<10; i++){
-        if (TabOsob[i].getNazwisko()==nazwisko)
+        if (TabNazwiska[i]==nazwisko)
         {
-            TabOsob[i].setNazwisko(nowenazwisko);
+            TabNazwiska[i]=nowenazwisko;
+            cout << "Zmieniono Nazwisko\n";
             return;
         }
     }
 }
 
-void UsunOsobe(Osoba *TabOsob, string nazwisko, bool *TabObecnosc)
+void UsunOsobe(string *TabNazwiska, string nazwisko, bool *TabObecnosc, string *TabImie, int *TabIndex)
 {
     for (int i=0; i<10; i++){
-        if (TabOsob[i].getNazwisko()==nazwisko)
+        if (TabNazwiska[i]==nazwisko)
         {
             for (int j=i+1; j<10; j++)
             {
-                TabOsob[j-1].setNazwisko(TabOsob[j].getNazwisko());
-                TabOsob[j-1].setImie(TabOsob[j].getImie());
-                TabOsob[j-1].setIndex(TabOsob[j].getIndex());
+                TabNazwiska[j-1]=TabNazwiska[j];
+                TabImie[j-1]=TabImie[j];
+                TabIndex[j-1]=TabIndex[j];
                 TabObecnosc[j-1]=TabObecnosc[j];
             }
             return;
@@ -110,34 +56,36 @@ void UsunOsobe(Osoba *TabOsob, string nazwisko, bool *TabObecnosc)
     }
 }
 
-void ustawIndex(Osoba *TabOsob, string nazwisko, int Index)
+void ustawIndex(string *TabNazwiska, int *TabIndex, string nazwisko, int Index)
 {
     for (int i=0; i<10; i++){
-        if (TabOsob[i].getNazwisko()==nazwisko)
+        if (TabNazwiska[i]==nazwisko)
         {
-            TabOsob[i].setIndex(Index);
+            TabIndex[i]=Index;
+            cout << "Ustawiono Index\n";
             return;
         }
     }
 }
 
-void ustawImie(Osoba *TabOsob, string nazwisko, string imie)
+void ustawImie(string *TabNazwiska, string *TabImie, string nazwisko, string imie)
 {
     for (int i=0; i<10; i++){
-        if (TabOsob[i].getNazwisko()==nazwisko)
+        if (TabNazwiska[i]==nazwisko)
         {
-            TabOsob[i].setImie(imie);
+            TabImie[i]=imie;
+            cout << "Ustawiono Imie\n";
             return;
         }
     }
 }
 
-void wyswietlliste (Osoba *TabOsob, bool *TabObecnosc)
+void wyswietlliste (string *TabNazwiska, bool *TabObecnosc, string *TabImie, int *TabIndex)
 {
     for (int i=0; i<10; i++){
-        if (TabOsob[i].getNazwisko()!="")
+        if (TabNazwiska[i]!="")
         {
-            cout << TabOsob[i].getIndex() << " " << TabOsob[i].getImie() << " " << TabOsob[i].getNazwisko() << " " << TabObecnosc[i] << "\n";
+            cout << TabIndex[i] << " " << TabImie[i] << " " << TabNazwiska[i] << " " << TabObecnosc[i] << "\n";
         }
     }
     return;
@@ -145,9 +93,10 @@ void wyswietlliste (Osoba *TabOsob, bool *TabObecnosc)
 int main() {
 
 
-    
+    string TabNazwiska[10];
     bool TabObecnosc[10];
-    Osoba TabOsob[10];
+    int TabIndex[10];
+    string TabImie[10];
     while (true)
     {
         cout << "MENU (Wybierz 1,2,3)\n";
@@ -163,35 +112,35 @@ int main() {
         case 1:
             cout << "Podaj Nazwisko: ";
             cin >> nazwisko;
-            dodajOsobe(TabOsob, nazwisko);
+            dodajOsobe(TabNazwiska, nazwisko);
             break;
         case 2:
             cout << "Podaj Nazwisko i Obecnosc (0,1): ";
             cin >> nazwisko >> obecnosc;
-            ustawObecnosc(TabOsob, TabObecnosc, nazwisko, obecnosc);
+            ustawObecnosc(TabNazwiska, TabObecnosc, nazwisko, obecnosc);
             break;
         case 3:
-            wyswietlliste(TabOsob, TabObecnosc);
+            wyswietlliste(TabNazwiska, TabObecnosc, TabImie, TabIndex);
             break;
         case 4:
             cout << "Podaj Nazwisko i Index: ";
             cin >> nazwisko >> index;
-            ustawIndex(TabOsob, nazwisko, index);
+            ustawIndex(TabNazwiska, TabIndex, nazwisko, index);
             break;
         case 5:
             cout << "Podaj Nazwisko i Imie: ";
             cin >> nazwisko >> imie;
-            ustawImie(TabOsob, nazwisko, imie);
+            ustawImie(TabNazwiska, TabImie, nazwisko, imie);
             break;
         case 6:
             cout << "Podaj Nazwisko: ";
             cin >> nazwisko >> nowenazwisko;
-            zmienNazwisko(TabOsob, nazwisko, nowenazwisko);
+            zmienNazwisko(TabNazwiska, nazwisko, nowenazwisko);
             break;
         case 7:
             cout << "Podaj Nazwisko: ";
             cin >> nazwisko;
-            UsunOsobe(TabOsob, nazwisko, TabObecnosc);
+            UsunOsobe(TabNazwiska, nazwisko, TabObecnosc, TabImie, TabIndex);
         default:
             break;
         }
